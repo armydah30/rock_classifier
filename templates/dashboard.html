@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container-fluid">
+   <h1><small>Rock Entries</small></h1>
+   <hr>
+   <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Rock Location</th>
+      <th>Entry Date</th>
+      <th></th>
+    </tr>
+    {% for rock in rocks %}
+    <tr>
+      <td> {{rock.id}} </td>
+      <td> {{rock.name}} </td>
+      <td> {{rock.phone}} </td>
+      <td> {{rock.location}} </td>
+      <td> {{rock.create_date}} </td>
+      <td><a href="rock/{{rock.id}}" class="btn btn-dark pullright">View </td>
+    </tr>
+    {% endfor %}
+   </table>
+</div>
+{% endblock %}

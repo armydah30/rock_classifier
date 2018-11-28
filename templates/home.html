@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+{% from "includes/_formhelpers.html" import render_field %}
+
+<div class = "container-fluid message">
+  <h1><strong>Rock Classification</strong></h1>
+  <hr>
+  <form method= "POST" action="">
+    <div class="form-group">
+      {{render_field(form.name, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.phone, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.location, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.ucs, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.acv, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.pl, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.av, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.brit, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.bwi, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.dri, class_="form-control")}}
+    </div>
+
+
+   <p><input type="submit" class="btn btn-dark" value="Submit"></p>
+
+  </form>
+</div>
+
+{% endblock %}
