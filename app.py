@@ -35,7 +35,13 @@ class Rock(db.Model):
     av = db.Column(db.Integer, nullable=False)
     brit = db.Column(db.Integer, nullable=False)
     bwi = db.Column(db.Integer, nullable=False)
-    dri = db.Column(db.Integer, nullable=False)
+    ucs_class = db.Column(db.String(100), nullable=True)
+    acv_class = db.Column(db.String(100), nullable=True)
+    pl_class = db.Column(db.String(100), nullable=True)
+    av_class = db.Column(db.String(100), nullable=True)
+    brit_class = db.Column(db.String(100), nullable=True)
+    bwi_class = db.Column(db.String(100), nullable=True)
+    dri_class = db.Column(db.String(100), nullable=True)
     create_date = db.Column(db.DateTime, nullable=False)
 
 
@@ -88,7 +94,7 @@ def add_user():
 
         flash('You are now registered and can log in', 'success')
 
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
     return render_template('add_user.html', form=form)
 
@@ -124,20 +130,20 @@ def rocks():
 class RockForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)])
     phone = StringField('Phone', [validators.Length(min=4, max=25)])
-    location = StringField('Location', [validators.Length(min=4, max=25)])
-    ucs = IntegerField('Uniaxial Compressive Strength', [validators.NumberRange(min=1)])
-    acv = IntegerField('Aggregate Crushing Value', [validators.NumberRange(min=1)])
-    pl = IntegerField('Point Load', [validators.NumberRange(min=1)])
-    av = IntegerField('Abrasion', [validators.NumberRange(min=10)])
-    brit = IntegerField('Brittleness', [validators.NumberRange(min=1)])
-    bwi = IntegerField('Bit Wear Index', [validators.NumberRange(min=1)])
-    dri = IntegerField('Drilling Rate Index', [validators.NumberRange(min=0)])
+    location = StringField('Location', [validators.Length(min=0, max=25)])
+    ucs = IntegerField('Uniaxial Compressive Strength', [validators.NumberRange(min=0)])
+    acv = IntegerField('Aggregate Crushing Value', [validators.NumberRange(min=0)])
+    pl = IntegerField('Point Load', [validators.NumberRange(min=0)])
+    av = IntegerField('Abrasion', [validators.NumberRange(min=0)])
+    brit = IntegerField('Brittleness', [validators.NumberRange(min=0)])
+    bwi = IntegerField('Bit Wear Index', [validators.NumberRange(min=0)])
 
 
 #Rock registration
 @app.route('/', methods=['GET', 'POST'])
 def home():
     form = RockForm(request.form)
+    dri_class = "Undetermined"
     if request.method == 'POST' and form.validate():
         name = form.name.data
         phone = form.phone.data
@@ -148,16 +154,161 @@ def home():
         av = form.av.data
         brit = form.brit.data
         bwi = form.bwi.data
-        dri = form.dri.data
+
+        if ucs >= 250:
+            ucs_class = "Very High"
+        elif 100 <= ucs < 250:
+            ucs_class = "High"
+        elif 50 <= ucs < 100:
+            ucs_class = "Moderate"
+        elif 25 <= ucs < 50:
+            ucs_class = "Medium"
+        elif 5 <= ucs < 25:
+            ucs_class = "Low"
+        elif ucs < 5:
+            ucs_class = "Very Low"
+
+        if acv > 50:
+            acv_class = "Extremely High"
+        elif 10 < acv <= 19.99:
+            acv_class = "Very Low"
+        elif 20 <= acv <= 29.99:
+            acv_class = "Low"
+        elif 30 <= acv <= 39.99:
+            acv_class = "Medium"
+        elif 40 <= acv <= 49.99:
+            acv_class = "High"
+        elif 1 <= acv <= 9.99:
+            acv_class = "Extremely Low"
+
+        if pl > 7:
+            pl_class = "Extremely High"
+        elif 3 < pl <= 3.99:
+            pl_class = "Very Low"
+        elif 4 <= pl <= 4.99:
+            pl_class = "Low"
+        elif 5 <= pl <= 5.99:
+            pl_class = "Medium"
+        elif 6 <= pl <= 6.99:
+            pl_class = "High"
+        elif 1 <= pl <= 3:
+            pl_class = "Extremely Low"
+
+        if av > 60:
+            av_class = "Extremely High"
+        elif 20 < av <= 29.99:
+            av_class = "Very Low"
+        elif 30 <= av <= 39.99:
+            av_class = "Low"
+        elif 40 <= av <= 49.99:
+            av_class = "Medium"
+        elif 50 <= av <= 59.99:
+            av_class = "High"
+        elif 10 <= av <= 19.99:
+            av_class = "Extremely Low"
+
+        if brit > 50:
+            brit_class = "Extremely High"
+        elif 10 < brit <= 19.99:
+            brit_class = "Very Low"
+        elif 20 <= brit <= 29.99:
+            brit_class = "Low"
+        elif 30 <= brit <= 39.99:
+            brit_class = "Medium"
+        elif 40 <= brit <= 49.99:
+            brit_class = "High"
+        elif 1 <= brit <= 9.99:
+            brit_class = "Extremely Low"
+
+        if bwi > 50:
+            bwi_class = "Extremely High"
+        elif 10 < bwi <= 19.99:
+            bwi_class = "Very Low"
+        elif 20 <= bwi <= 29.99:
+            bwi_class = "Low"
+        elif 30 <= bwi <= 39.99:
+            bwi_class = "Medium"
+        elif 40 <= bwi <= 49.99:
+            bwi_class = "High"
+        elif 1 <= bwi <= 9.99:
+            bwi_class = "Extremely Low"
+
+
+
+        if bwi_class == "Medium":
+            if ucs_class == "Moderate":
+                if pl_class == "Low":
+                    if acv_class == "Low":
+                        if brit_class == "Extremely High":
+                            if av_class == "High":
+                                dri_class = "High"
+        elif bwi_class == "Medium":
+            if ucs_class == "High":
+                if pl_class == "Medium":
+                    if acv_class == "Low":
+                        if brit_class == "Extremely High":
+                            if av_class == "High":
+                                dri_class = "Medium"
+        elif bwi_class == "Low":
+            if ucs_class == "Moderate":
+                if pl_class == "Low":
+                    if acv_class == "Medium":
+                        if brit_class == "Extremely High":
+                            if av_class == "Very High":
+                                dri_class = "High"
+        elif bwi_class == "High":
+            if ucs_class == "High":
+                if pl_class == "High":
+                    if acv_class == "Low":
+                        if brit_class == "Extremely High":
+                            if av_class == "High":
+                                dri_class = "Medium"
+        elif bwi_class == "Extremely High":
+            if ucs_class == "High":
+                if pl_class == "Very High":
+                    if acv_class == "Low":
+                        if brit_class == "Medium":
+                            if av_class == "Low":
+                                dri_class = "Extremely Low"
+        elif bwi_class == "Medium":
+            if ucs_class == "Moderate":
+                if pl_class == "Low":
+                    if acv_class == "Low":
+                        if brit_class == "Extremely High":
+                            if av_class == "High":
+                                dri_class = "Medium"
+        elif bwi_class == "Medium":
+            if ucs_class == "Moderate":
+                if pl_class == "Medium":
+                    if acv_class == "Low":
+                        if brit_class == "Extremely High":
+                            if av_class == "High":
+                                dri_class = "Medium"
+        elif bwi_class == "High":
+            if ucs_class == "High":
+                if pl_class == "High":
+                    if acv_class == "Low":
+                        if brit_class == "Very High":
+                            if av_class == "Medium":
+                                dri_class = "Low"
+        elif bwi_class == "Very High":
+            if ucs_class == "High":
+                if pl_class == "High":
+                    if acv_class == "Low":
+                        if brit_class == "High":
+                            if av_class == "Medium":
+                                dri_class = "Very Low"
+
+
 
     #execute commands
-        rock = Rock(name=name, phone=phone, location=location, ucs=ucs, acv=acv, pl=pl, av=av, brit=brit, bwi=bwi, dri=dri, create_date=datetime.now().date())
+        rock = Rock(name=name, phone=phone, location=location, ucs=ucs, acv=acv, pl=pl, av=av, brit=brit, bwi=bwi, acv_class=acv_class, ucs_class=ucs_class, pl_class=pl_class, brit_class=brit_class, bwi_class=bwi_class, av_class=av_class, dri_class=dri_class, create_date=datetime.now().date())
         db.session.add(rock)
         db.session.commit()
 
         flash('Information Collected!', 'success')
 
-        return redirect(url_for('home'))
+        return redirect(url_for('rocks'))
 
     return render_template('home.html', form=form)
 
@@ -214,7 +365,7 @@ def users():
 def logout():
     session.clear()
     flash('You are now logged out!', 'success')
-    return redirect(url_for('login'))
+    return redirect(url_for('/login'))
 
 
 

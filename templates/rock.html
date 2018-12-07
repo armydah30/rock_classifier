@@ -49,10 +49,6 @@
        <th scope="row">Bit Wear Index</th>
        <td>{{rock.bwi}} </td>
      </tr>
-     <tr>
-       <th scope="row">Drilling Rate Index</th>
-       <td>{{rock.dri}} </td>
-     </tr>
    </tbody>
   </table>
   <h2><small>Rock Classification Results</small></h2>
@@ -61,230 +57,31 @@
    <tbody>
      <tr>
        <th scope="row">Uniaxial Compressive Strength</th>
-       {% if rock.ucs >= 250 %}
-         <td> Class A  </td>
-         <td> Very High  </td>
-       {% elif rock.ucs >= 100 %}
-         {% if rock.ucs < 250 %}
-           <td> Class B  </td>
-           <td> High  </td>
-         {% endif %}
-       {% elif rock.ucs >= 50 %}
-         {% if rock.ucs < 100 %}
-           <td> Class C  </td>
-           <td> Moderate  </td>
-         {% endif %}
-       {% elif rock.ucs >= 25 %}
-         {% if rock.ucs < 50 %}
-           <td> Class D  </td>
-           <td> Medium  </td>
-         {% endif %}
-       {% elif rock.ucs >= 5 %}
-         {% if rock.ucs < 25 %}
-           <td> Class E  </td>
-           <td> Low  </td>
-         {% endif %}
-       {% elif rock.ucs < 5 %}
-           <td> Class F  </td>
-           <td> Very Low  </td>
-       {% endif %}
+       <td>{{rock.ucs_class}}</td>
      </tr>
      <tr>
        <th scope="row">Aggregate Crushing Value</th>
-       {% if rock.acv > 50 %}
-         <td> Class F  </td>
-         <td> Extremely High</td>
-       {% elif rock.acv <= 19.99 %}
-         {% if rock.acv > 10 %}
-           <td> Class B  </td>
-           <td> Very Low  </td>
-         {% endif %}
-       {% elif rock.acv <= 29.99 %}
-         {% if rock.acv >= 20 %}
-           <td> Class C  </td>
-           <td> Low  </td>
-         {% endif %}
-       {% elif rock.acv <= 39.99 %}
-         {% if rock.acv >= 30 %}
-           <td> Class D  </td>
-           <td> Medium  </td>
-         {% endif %}
-       {% elif rock.acv <= 49.99 %}
-         {% if rock.acv >= 40 %}
-           <td> Class E  </td>
-           <td> High  </td>
-         {% endif %}
-       {% elif rock.acv <= 9 %}
-         {% if rock.acv >= 1 %}
-           <td> Class A </td>
-           <td> Extremely Low </td>
-         {% endif %}
-       {% endif %}
+       <td>{{rock.acv_class}}</td>
      </tr>
      <tr>
        <th scope="row">Point Load</th>
-       {% if rock.pl > 7 %}
-         <td> Class F  </td>
-         <td> Extremely High</td>
-       {% elif rock.pl >= 3 %}
-         {% if rock.pl < 3.99 %}
-           <td> Class B  </td>
-           <td> Very Low  </td>
-         {% endif %}
-       {% elif rock.pl >= 4 %}
-         {% if rock.pl < 4.99 %}
-           <td> Class C  </td>
-           <td> Low  </td>
-         {% endif %}
-       {% elif rock.pl >= 5 %}
-         {% if rock.pl < 5.99 %}
-           <td> Class D  </td>
-           <td> Medium  </td>
-         {% endif %}
-       {% elif rock.pl >= 6 %}
-         {% if rock.pl < 6.99 %}
-           <td> Class E  </td>
-           <td> High  </td>
-         {% endif %}
-       {% elif rock.pl >= 1 %}
-         {% if rock.pl < 3 %}
-           <td> Class A </td>
-           <td> Extremely Low </td>
-         {% endif %}
-       {% endif %}
+       <td>{{rock.pl_class}}</td>
      </tr>
      <tr>
        <th scope="row">Abrasion</th>
-       {% if rock.av > 60 %}
-         <td> Class F  </td>
-         <td> Extremely High</td>
-       {% elif rock.av <= 29.99 %}
-         {% if rock.av >= 20 %}
-           <td> Class B  </td>
-           <td> Very Low  </td>
-         {% endif %}
-       {% elif rock.av <= 39.99 %}
-         {% if rock.av >= 30 %}
-           <td> Class C  </td>
-           <td> Low  </td>
-         {% endif %}
-       {% elif rock.av <= 49.99 %}
-         {% if rock.av >= 40 %}
-           <td> Class D  </td>
-           <td> Medium  </td>
-         {% endif %}
-       {% elif rock.av <= 59.99 %}
-         {% if rock.av >= 50 %}
-           <td> Class E  </td>
-           <td> High  </td>
-         {% endif %}
-       {% elif rock.av <= 19.99 %}
-         {% if rock.av >= 10 %}
-           <td> Class A </td>
-           <td> Extremely Low </td>
-         {% endif %}
-       {% endif %}
+       <td>{{rock.av_class}}</td>
      </tr>
      <tr>
        <th scope="row">Brittleness</th>
-       {% if rock.brit > 50 %}
-         <td> Class F  </td>
-         <td> Extremely High</td>
-       {% elif rock.brit <= 19.99 %}
-         {% if rock.brit >= 10 %}
-           <td> Class B  </td>
-           <td> Very Low  </td>
-         {% endif %}
-       {% elif rock.brit <= 29.99 %}
-         {% if rock.brit >= 20 %}
-           <td> Class C  </td>
-           <td> Low  </td>
-         {% endif %}
-       {% elif rock.brit <= 39.99 %}
-         {% if rock.brit >= 30 %}
-           <td> Class D  </td>
-           <td> Medium  </td>
-         {% endif %}
-       {% elif rock.brit <= 49.99 %}
-         {% if rock.brit >= 40 %}
-           <td> Class E  </td>
-           <td> High  </td>
-         {% endif %}
-       {% elif rock.brit <= 9.99 %}
-         {% if rock.brit >= 1 %}
-           <td> Class A </td>
-           <td> Extremely Low </td>
-         {% endif %}
-       {% endif %}
+       <td>{{rock.brit_class}}</td>
      </tr>
      <tr>
        <th scope="row">Bit Wear Index</th>
-       {% if rock.bwi > 50 %}
-         <td> Class F  </td>
-         <td> Extremely High</td>
-       {% elif rock.bwi <= 19.99 %}
-         {% if rock.bwi >= 10 %}
-           <td> Class B  </td>
-           <td> Very Low  </td>
-         {% endif %}
-       {% elif rock.bwi <= 29.99 %}
-         {% if rock.bwi >= 20 %}
-           <td> Class C  </td>
-           <td> Low  </td>
-         {% endif %}
-       {% elif rock.bwi <= 39.99 %}
-         {% if rock.bwi >= 30 %}
-           <td> Class D  </td>
-           <td> Medium  </td>
-         {% endif %}
-       {% elif rock.bwi <= 49.99 %}
-         {% if rock.bwi >= 40 %}
-           <td> Class E  </td>
-           <td> High  </td>
-         {% endif %}
-       {% elif rock.bwi <= 9.99 %}
-         {% if rock.bwi >= 1 %}
-           <td> Class A </td>
-           <td> Extremely Low </td>
-         {% endif %}
-       {% endif %}
+       <td>{{rock.bwi_class}}</td>
      </tr>
      <tr>
-       <th scope="row">Drilling Rate Index</th>
-       {% if rock.dri > 82 %}
-         <td> Class G  </td>
-         <td> Extremely High</td>
-       {% elif rock.dri >= 26 %}
-         {% if rock.dri <= 32 %}
-           <td> Class B  </td>
-           <td> Very Low  </td>
-         {% endif %}
-       {% elif rock.dri >= 33 %}
-         {% if rock.dri <= 42 %}
-           <td> Class C  </td>
-           <td> Low  </td>
-         {% endif %}
-       {% elif rock.dri >= 43 %}
-         {% if rock.dri <= 57 %}
-           <td> Class D  </td>
-           <td> Medium  </td>
-         {% endif %}
-       {% elif rock.dri >= 58 %}
-         {% if rock.dri <= 69 %}
-           <td> Class E  </td>
-           <td> High  </td>
-         {% endif %}
-       {% elif rock.dri >= 70 %}
-         {% if rock.dri <= 82 %}
-           <td> Class E  </td>
-           <td> Very High  </td>
-         {% endif %}
-       {% elif rock.dri >= 0 %}
-         {% if rock.dri <= 25 %}
-           <td> Class A </td>
-           <td> Extremely Low </td>
-         {% endif %}
-       {% endif %}
+       <th scope="row">Derived DRI</th>
+       <td>{{rock.dri_class}}</td>
      </tr>
    </tbody>
   </table>
