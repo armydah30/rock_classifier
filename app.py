@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 from data import Rules
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import Form, StringField, TextAreaField, IntegerField, PasswordField, SelectField, validators
+from wtforms import Form, StringField, TextAreaField, IntegerField, DecimalField, PasswordField, SelectField, validators
 from flask_bcrypt import Bcrypt
 from functools import wraps
 import requests
@@ -131,12 +131,12 @@ class RockForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)])
     phone = StringField('Phone', [validators.Length(min=4, max=25)])
     location = StringField('Location', [validators.Length(min=0, max=25)])
-    ucs = IntegerField('Uniaxial Compressive Strength', [validators.DataRequired()])
-    acv = IntegerField('Aggregate Crushing Value', [validators.DataRequired()])
-    pl = IntegerField('Point Load', [validators.DataRequired()])
-    av = IntegerField('Abrasion', [validators.DataRequired()])
-    brit = IntegerField('Brittleness', [validators.DataRequired()])
-    bwi = IntegerField('Bit Wear Index', [validators.DataRequired()])
+    ucs = DecimalField('Uniaxial Compressive Strength', [validators.DataRequired()])
+    acv = DecimalField('Aggregate Crushing Value', [validators.DataRequired()])
+    pl = DecimalField('Point Load', [validators.DataRequired()])
+    av = DecimalField('Abrasion', [validators.DataRequired()])
+    brit = DecimalField('Brittleness', [validators.DataRequired()])
+    bwi = DecimalField('Bit Wear Index', [validators.DataRequired()])
 
 
 #Rock registration
