@@ -131,12 +131,12 @@ class RockForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)])
     phone = StringField('Phone', [validators.Length(min=4, max=25)])
     location = StringField('Location', [validators.Length(min=0, max=25)])
-    ucs = DecimalField('Uniaxial Compressive Strength', [validators.DataRequired()])
-    acv = DecimalField('Aggregate Crushing Value', [validators.DataRequired()])
-    pl = DecimalField('Point Load', [validators.DataRequired()])
-    av = DecimalField('Abrasion', [validators.DataRequired()])
-    brit = DecimalField('Brittleness', [validators.DataRequired()])
-    bwi = DecimalField('Bit Wear Index', [validators.DataRequired()])
+    ucs = IntegerField('Uniaxial Compressive Strength', [validators.DataRequired()])
+    acv = IntegerField('Aggregate Crushing Value', [validators.DataRequired()])
+    pl = IntegerField('Point Load', [validators.DataRequired()])
+    av = IntegerField('Abrasion', [validators.DataRequired()])
+    brit = IntegerField('Brittleness', [validators.DataRequired()])
+    bwi = IntegerField('Bit Wear Index', [validators.DataRequired()])
 
 
 #Rock registration
@@ -307,6 +307,9 @@ def home():
         db.session.commit()
 
         flash('Information Collected!', 'success')
+        #get users
+        rocks = Rock.query.all()
+        id = len(rocks)
 
         return redirect(url_for('rocks'))
 
