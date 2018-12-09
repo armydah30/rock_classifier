@@ -131,12 +131,12 @@ class RockForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)])
     phone = StringField('Phone', [validators.Length(min=4, max=25)])
     location = StringField('Location', [validators.Length(min=0, max=25)])
-    ucs = IntegerField('Uniaxial Compressive Strength', [validators.NumberRange(min=0)])
-    acv = IntegerField('Aggregate Crushing Value', [validators.NumberRange(min=0)])
-    pl = IntegerField('Point Load', [validators.NumberRange(min=0)])
-    av = IntegerField('Abrasion', [validators.NumberRange(min=0)])
-    brit = IntegerField('Brittleness', [validators.NumberRange(min=0)])
-    bwi = IntegerField('Bit Wear Index', [validators.NumberRange(min=0)])
+    ucs = IntegerField('Uniaxial Compressive Strength', [validators.DataRequired()])
+    acv = IntegerField('Aggregate Crushing Value', [validators.DataRequired()])
+    pl = IntegerField('Point Load', [validators.DataRequired()])
+    av = IntegerField('Abrasion', [validators.DataRequired()])
+    brit = IntegerField('Brittleness', [validators.DataRequired()])
+    bwi = IntegerField('Bit Wear Index', [validators.DataRequired()])
 
 
 #Rock registration
