@@ -9,8 +9,8 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Phone</th>
       <th>Rock Location</th>
+      <th>Derived DRI</th>
       <th>Entry Date</th>
       <th></th>
     </tr>
@@ -18,10 +18,10 @@
     <tr>
       <td> {{rock.id}} </td>
       <td> {{rock.name}} </td>
-      <td> {{rock.phone}} </td>
       <td> {{rock.location}} </td>
+      <td> {{rock.dri_class}} </td>
       <td> {{rock.create_date}} </td>
-      <td><a href="rock/{{rock.id}}" class="btn btn-dark pullright">View </td>
+      <td><a href="rock/{{rock.id}}" class="btn btn-dark pullright">View Details</td>
     </tr>
     {% endfor %}
    </table>
