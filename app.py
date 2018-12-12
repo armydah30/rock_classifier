@@ -12,6 +12,7 @@ import time
 from datetime import datetime, timedelta
 import math
 from werkzeug.utils import secure_filename
+from sqlalchemy import desc
 
 
 
@@ -106,7 +107,7 @@ def add_user():
 def dashboard():
 
     #get rules
-    rocks = Rock.query.all()
+    rocks = Rock.query.order_by(Rock.id.desc()).all()
 
     if len(rocks) > 0:
         return render_template('dashboard.html', rocks=rocks)
@@ -119,7 +120,7 @@ def dashboard():
 def rocks():
 
     #get rules
-    rocks = Rock.query.all()
+    rocks = Rock.query.order_by(Rock.id.desc()).all()
 
     if len(rocks) > 0:
         return render_template('rocks.html', rocks=rocks)
@@ -169,6 +170,7 @@ def delete_user(id):
 def home():
     form = RockForm(request.form)
     dri_class = "Undetermined"
+
     if request.method == 'POST' and form.validate():
         name = form.name.data
         phone = form.phone.data
@@ -193,7 +195,7 @@ def home():
         elif ucs < 5:
             ucs_class = "Very Low"
 
-        if acv > 50:
+        if acv >= 50:
             acv_class = "Extremely High"
         elif 10 < acv <= 19.99:
             acv_class = "Very Low"
@@ -206,7 +208,7 @@ def home():
         elif 1 <= acv <= 9.99:
             acv_class = "Extremely Low"
 
-        if pl > 7:
+        if pl >= 7:
             pl_class = "Extremely High"
         elif 3 < pl <= 3.99:
             pl_class = "Very Low"
@@ -219,7 +221,7 @@ def home():
         elif 1 <= pl <= 3:
             pl_class = "Extremely Low"
 
-        if av > 60:
+        if av >= 60:
             av_class = "Extremely High"
         elif 20 < av <= 29.99:
             av_class = "Very Low"
@@ -229,10 +231,10 @@ def home():
             av_class = "Medium"
         elif 50 <= av <= 59.99:
             av_class = "High"
-        elif 10 <= av <= 19.99:
+        elif av <= 19.99:
             av_class = "Extremely Low"
 
-        if brit > 50:
+        if brit >= 50:
             brit_class = "Extremely High"
         elif 10 < brit <= 19.99:
             brit_class = "Very Low"
@@ -245,7 +247,7 @@ def home():
         elif 1 <= brit <= 9.99:
             brit_class = "Extremely Low"
 
-        if bwi > 50:
+        if bwi >= 50:
             bwi_class = "Extremely High"
         elif 10 < bwi <= 19.99:
             bwi_class = "Very Low"
@@ -331,12 +333,12 @@ def home():
         db.session.add(rock)
         db.session.commit()
 
-        flash('Information Collected!', 'success')
-        #get users
-        rocks = Rock.query.all()
-        id = len(rocks)
 
-        return redirect(url_for('rocks'))
+        rock = Rock.query.order_by(Rock.id.desc()).first()
+
+        id = rock.id
+
+        return redirect(url_for('rock', id=id))
 
     return render_template('home.html', form=form)
 
