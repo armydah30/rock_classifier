@@ -3,42 +3,73 @@
 {% block body %}
 {% from "includes/_formhelpers.html" import render_field %}
 
-<div class = "container-fluid message">
-  <h1><strong>Rock Classification</strong></h1>
-  <hr>
-  <form method= "POST" action="">
-    <div class="form-group">
-      {{render_field(form.name, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.phone, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.location, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.ucs, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.acv, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.pl, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.av, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.brit, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.bwi, class_="form-control")}}
-    </div>
+<div class="jumbotron bg-cover">
 
-
-   <p><input type="submit" class="btn btn-dark" value="Submit"></p>
-
-  </form>
 </div>
+<div class="container-fluid text-center">
+  <h1 class="display-1" style = "font-size: 60px;">Rock DRI Calculator!</h1>
+  <h3 class="display-4" style = "font-size: 30px;">Welcome to the Rock DRI Application</h3>
+  <p class="lead">This app has been created specifically to help with calculating the DRI of a rock. Based on input values, it classifies a rock on multiple dimensions and uses the results to get a Derived DRI for the rock. </p>
+  <hr class="my-4">
+      <p>Start your rock classification by clicking the button below.</p>
+      <p class="lead">
+      <a class="btn btn-dark btn-lg" style= "color:white;" data-toggle="modal" data-target="#details_3" role="button">Start!</a>
+
+  </p>
+</div>
+
+<div class="modal fade  bd-example-modal-lg" id="details_3" tabindex="-1" role="dialog" aria-labelledby="details_3" aria-hidden="true">
+ <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header bg-dark" style= "color:white;">
+        <i class="icon-bar-chart font-red"></i>
+          <h2 style= "color:white;"><strong>Your Rock Classification</strong></h2>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h4><strong>Please enter your details below</strong></h4>
+      <form method= "POST" action="">
+        <div class="form-group">
+          {{render_field(form.name, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.phone, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.location, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.ucs, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.acv, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.pl, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.av, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.brit, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.bwi, class_="form-control")}}
+        </div>
+
+
+       <p><input type="submit" class="btn btn-dark" value="Submit"></p>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn bg-dark" style = "color:white;" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+
 
 {% endblock %}

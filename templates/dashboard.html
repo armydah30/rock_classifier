@@ -4,25 +4,46 @@
 <div class="container-fluid">
    <h1><small>Rock Entries</small></h1>
    <hr>
-   <table class="table table-striped">
+   <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
     <tr>
-      <th>ID</th>
       <th>Name</th>
       <th>Phone</th>
       <th>Rock Location</th>
+      <th>Derived DRI</th>
       <th>Entry Date</th>
       <th></th>
     </tr>
     {% for rock in rocks %}
     <tr>
-      <td> {{rock.id}} </td>
       <td> {{rock.name}} </td>
       <td> {{rock.phone}} </td>
       <td> {{rock.location}} </td>
+      <td> {{rock.dri_class}} </td>
       <td> {{rock.create_date}} </td>
       <td><a href="rock/{{rock.id}}" class="btn btn-dark pullright">View </td>
+      <td>
+        <form action="{{url_for('delete_entry', id=rock.id)}}" method ="post" >
+           <input type="hidden" name="_method" value="DELETE">
+           <input type ="submit" value ="Delete" class="btn btn-danger">
+        </form>
+      </td>
     </tr>
     {% endfor %}
    </table>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "lengthMenu": [ 10, 25, 50, 75, 100 ],
+        dom: 'Bfrtip',
+        buttons: [
+
+              { extend: 'copyHtml5', className: 'copyButton' },
+              { extend: 'excelHtml5', className: 'excelButton' },
+              { extend: 'csvHtml5', className: 'csvButton' }
+
+        ]
+    } );
+} );
+</script>
 {% endblock %}

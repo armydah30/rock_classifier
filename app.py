@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 from data import Rules
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import Form, StringField, TextAreaField, IntegerField, DecimalField, PasswordField, SelectField, validators
+from wtforms import Form, StringField, TextAreaField, FloatField, IntegerField, DecimalField, PasswordField, SelectField, validators
 from flask_bcrypt import Bcrypt
 from functools import wraps
 import requests
@@ -16,7 +16,7 @@ from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
-app.debug = False
+app.debug = True
 app.config['SECRET_KEY'] = '12345'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rock_app.db'
 
@@ -79,6 +79,7 @@ class RegisterForm(Form):
 
 #User Register
 @app.route('/add_user', methods=['GET', 'POST'])
+@is_logged_in
 def add_user():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -131,13 +132,37 @@ class RockForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)])
     phone = StringField('Phone', [validators.Length(min=4, max=25)])
     location = StringField('Location', [validators.Length(min=0, max=25)])
-    ucs = IntegerField('Uniaxial Compressive Strength', [validators.DataRequired()])
-    acv = IntegerField('Aggregate Crushing Value', [validators.DataRequired()])
-    pl = IntegerField('Point Load', [validators.DataRequired()])
-    av = IntegerField('Abrasion', [validators.DataRequired()])
-    brit = IntegerField('Brittleness', [validators.DataRequired()])
-    bwi = IntegerField('Bit Wear Index', [validators.DataRequired()])
+    ucs = FloatField('Uniaxial Compressive Strength', [validators.DataRequired()])
+    acv = FloatField('Aggregate Crushing Value', [validators.DataRequired()])
+    pl = FloatField('Point Load', [validators.DataRequired()])
+    av = FloatField('Abrasion', [validators.DataRequired()])
+    brit = FloatField('Brittleness', [validators.DataRequired()])
+    bwi = FloatField('Bit Wear Index', [validators.DataRequired()])
 
+
+@app.route('/delete_entry/<string:id>', methods=['POST'])
+@is_logged_in
+def delete_entry(id):
+
+    rock = Rock.query.filter_by(id=id).one()
+    db.session.delete(rock)
+    db.session.commit()
+
+    flash('Entry Deleted', 'success')
+
+    return redirect(url_for('dashboard'))
+
+@app.route('/delete_user/<string:id>', methods=['POST'])
+@is_logged_in
+def delete_user(id):
+
+    user = Users.query.filter_by(id=id).one()
+    db.session.delete(user)
+    db.session.commit()
+
+    flash('User Deleted', 'success')
+
+    return redirect(url_for('users'))
 
 #Rock registration
 @app.route('/', methods=['GET', 'POST'])
@@ -242,56 +267,56 @@ def home():
                         if brit_class == "Extremely High":
                             if av_class == "High":
                                 dri_class = "High"
-        elif bwi_class == "Medium":
+        if bwi_class == "Medium":
             if ucs_class == "High":
                 if pl_class == "Medium":
                     if acv_class == "Low":
                         if brit_class == "Extremely High":
                             if av_class == "High":
                                 dri_class = "Medium"
-        elif bwi_class == "Low":
+        if bwi_class == "Low":
             if ucs_class == "Moderate":
                 if pl_class == "Low":
                     if acv_class == "Medium":
                         if brit_class == "Extremely High":
                             if av_class == "Very High":
                                 dri_class = "High"
-        elif bwi_class == "High":
+        if bwi_class == "High":
             if ucs_class == "High":
                 if pl_class == "High":
                     if acv_class == "Low":
                         if brit_class == "Extremely High":
                             if av_class == "High":
                                 dri_class = "Medium"
-        elif bwi_class == "Extremely High":
+        if bwi_class == "Extremely High":
             if ucs_class == "High":
                 if pl_class == "Very High":
                     if acv_class == "Low":
                         if brit_class == "Medium":
                             if av_class == "Low":
                                 dri_class = "Extremely Low"
-        elif bwi_class == "Medium":
+        if bwi_class == "Medium":
             if ucs_class == "Moderate":
                 if pl_class == "Low":
                     if acv_class == "Low":
                         if brit_class == "Extremely High":
                             if av_class == "High":
                                 dri_class = "Medium"
-        elif bwi_class == "Medium":
+        if bwi_class == "Medium":
             if ucs_class == "Moderate":
                 if pl_class == "Medium":
                     if acv_class == "Low":
                         if brit_class == "Extremely High":
                             if av_class == "High":
                                 dri_class = "Medium"
-        elif bwi_class == "High":
+        if bwi_class == "High":
             if ucs_class == "High":
                 if pl_class == "High":
                     if acv_class == "Low":
                         if brit_class == "Very High":
                             if av_class == "Medium":
                                 dri_class = "Low"
-        elif bwi_class == "Very High":
+        if bwi_class == "Very High":
             if ucs_class == "High":
                 if pl_class == "High":
                     if acv_class == "Low":
