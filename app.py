@@ -132,7 +132,7 @@ def rocks():
 class RockForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)])
     phone = StringField('Phone', [validators.Length(min=4, max=25)])
-    location = StringField('Location', [validators.Length(min=0, max=25)])
+    location = SelectField('Select a Crop', choices=[(' ', ' '), ('Abia', 'Abia'), ('Adamawa', 'Adamawa'), ('Akwa Ibom', 'Akwa Ibom'), ('Anambra', 'Anambra'), ('Bauchi', 'Bauchi'), ('Bayelsa', 'Bayelsa'), ('Benue', 'Benue'), ('Borno', 'Borno'), ('Cross River', 'Cross River'), ('Delta', 'Delta'), ('Ebonyi', 'Ebonyi'), ('Enugu', 'Enugu'), ('Edo', 'Edo'), ('Ekiti', 'Ekiti'), ('Gombe', 'Gombe'), ('Imo', 'Imo'), ('Jigawa', 'Jigawa'), ('Kaduna', 'Kaduna'), ('Kano', 'Kano'), ('Katsina', 'Katsina'), ('Kebbi', 'Kebbi'), ('Kogi', 'Kogi'), ('Kwara', 'Kwara'), ('Lagos', 'Lagos'), ('Nasarawa', 'Nasarawa'), ('Niger', 'Niger'), ('Ogun', 'Ogun'), ('Ondo', 'Ondo'), ('Osun', 'Osun'), ('Oyo', 'Oyo'), ('Plateau', 'Plateau'), ('Rivers', 'Rivers'), ('Sokoto', 'Sokoto'), ('Taraba', 'Taraba'), ('Yobe', 'Yobe'), ('Zamfara', 'Zamfara')], validators=[validators.DataRequired()] )
     ucs = FloatField('Uniaxial Compressive Strength', [validators.DataRequired()])
     acv = FloatField('Aggregate Crushing Value', [validators.DataRequired()])
     pl = FloatField('Point Load', [validators.DataRequired()])
