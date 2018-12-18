@@ -189,7 +189,7 @@ def home():
         r_brit = ((0.971 * brit) - (14.581))
         r_av = ((1.2779 * av) - (7.6605))
         dri = round(((r_ucs + r_pl + r_bwi + r_av + r_acv + r_brit) / 6), 2)
-        print(dri)
+        
 
         if dri > 82:
             dri_class = "Extremely High"
@@ -206,7 +206,6 @@ def home():
         elif 0 <= dri <= 25:
             dri_class = "Extremely Low"
 
-        print(dri_class)
         if ucs >= 250:
             ucs_class = "Very High"
         elif 100 <= ucs < 250:
