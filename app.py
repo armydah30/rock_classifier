@@ -36,6 +36,7 @@ class Rock(db.Model):
     av = db.Column(db.Integer, nullable=False)
     brit = db.Column(db.Integer, nullable=False)
     bwi = db.Column(db.Integer, nullable=False)
+    dri = db.Column(db.Integer, nullable=False)
     ucs_class = db.Column(db.String(100), nullable=True)
     acv_class = db.Column(db.String(100), nullable=True)
     pl_class = db.Column(db.String(100), nullable=True)
@@ -54,7 +55,7 @@ class Users(db.Model):
     password = db.Column(db.String(60), nullable=False)
     create_date = db.Column(db.DateTime, nullable=False)
 
-
+2
 #Check if user logged in
 def is_logged_in(f):
     @wraps(f)
@@ -169,7 +170,6 @@ def delete_user(id):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     form = RockForm(request.form)
-    dri_class = "Undetermined"
 
     if request.method == 'POST' and form.validate():
         name = form.name.data
@@ -182,6 +182,31 @@ def home():
         brit = form.brit.data
         bwi = form.bwi.data
 
+        r_ucs = (-(ucs * 0.4247) + (91.464))
+        r_bwi = (-(0.8828 * bwi) + (87.439))
+        r_pl = (-(13.627 * pl) + (125.95))
+        r_acv = ((2.7041 * acv) - (28.643))
+        r_brit = ((0.971 * brit) - (14.581))
+        r_av = ((1.2779 * av) - (7.6605))
+        dri = round(((r_ucs + r_pl + r_bwi + r_av + r_acv + r_brit) / 6), 2)
+        print(dri)
+
+        if dri > 82:
+            dri_class = "Extremely High"
+        elif 70 <= dri <= 82:
+            dri_class = "Very High"
+        elif 58 <= dri <= 69:
+            dri_class = "High"
+        elif 43 <= dri <= 57:
+            dri_class = "Medium"
+        elif 33 <= dri <= 42:
+            dri_class = "Low"
+        elif 26 <= dri <= 32:
+            dri_class = "Very Low"
+        elif 0 <= dri <= 25:
+            dri_class = "Extremely Low"
+
+        print(dri_class)
         if ucs >= 250:
             ucs_class = "Very High"
         elif 100 <= ucs < 250:
@@ -262,74 +287,12 @@ def home():
 
 
 
-        if bwi_class == "Medium":
-            if ucs_class == "Moderate":
-                if pl_class == "Low":
-                    if acv_class == "Low":
-                        if brit_class == "Extremely High":
-                            if av_class == "High":
-                                dri_class = "High"
-        if bwi_class == "Medium":
-            if ucs_class == "High":
-                if pl_class == "Medium":
-                    if acv_class == "Low":
-                        if brit_class == "Extremely High":
-                            if av_class == "High":
-                                dri_class = "Medium"
-        if bwi_class == "Low":
-            if ucs_class == "Moderate":
-                if pl_class == "Low":
-                    if acv_class == "Medium":
-                        if brit_class == "Extremely High":
-                            if av_class == "Very High":
-                                dri_class = "High"
-        if bwi_class == "High":
-            if ucs_class == "High":
-                if pl_class == "High":
-                    if acv_class == "Low":
-                        if brit_class == "Extremely High":
-                            if av_class == "High":
-                                dri_class = "Medium"
-        if bwi_class == "Extremely High":
-            if ucs_class == "High":
-                if pl_class == "Very High":
-                    if acv_class == "Low":
-                        if brit_class == "Medium":
-                            if av_class == "Low":
-                                dri_class = "Extremely Low"
-        if bwi_class == "Medium":
-            if ucs_class == "Moderate":
-                if pl_class == "Low":
-                    if acv_class == "Low":
-                        if brit_class == "Extremely High":
-                            if av_class == "High":
-                                dri_class = "Medium"
-        if bwi_class == "Medium":
-            if ucs_class == "Moderate":
-                if pl_class == "Medium":
-                    if acv_class == "Low":
-                        if brit_class == "Extremely High":
-                            if av_class == "High":
-                                dri_class = "Medium"
-        if bwi_class == "High":
-            if ucs_class == "High":
-                if pl_class == "High":
-                    if acv_class == "Low":
-                        if brit_class == "Very High":
-                            if av_class == "Medium":
-                                dri_class = "Low"
-        if bwi_class == "Very High":
-            if ucs_class == "High":
-                if pl_class == "High":
-                    if acv_class == "Low":
-                        if brit_class == "High":
-                            if av_class == "Medium":
-                                dri_class = "Very Low"
+
 
 
 
     #execute commands
-        rock = Rock(name=name, phone=phone, location=location, ucs=ucs, acv=acv, pl=pl, av=av, brit=brit, bwi=bwi, acv_class=acv_class, ucs_class=ucs_class, pl_class=pl_class, brit_class=brit_class, bwi_class=bwi_class, av_class=av_class, dri_class=dri_class, create_date=datetime.now().date())
+        rock = Rock(name=name, phone=phone, location=location, ucs=ucs, acv=acv, pl=pl, av=av, brit=brit, bwi=bwi, acv_class=acv_class, ucs_class=ucs_class, pl_class=pl_class, brit_class=brit_class, bwi_class=bwi_class, av_class=av_class, dri_class=dri_class, dri=dri, create_date=datetime.now().date())
         db.session.add(rock)
         db.session.commit()
 
