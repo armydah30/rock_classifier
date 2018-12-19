@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session, logging
 import os
-from data import Rules
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, TextAreaField, FloatField, IntegerField, DecimalField, PasswordField, SelectField, validators
 from flask_bcrypt import Bcrypt
@@ -90,7 +89,7 @@ def add_user():
         username = form.username.data
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 
-        #execute commands
+        #execute commands to insert into db
         user = Users(name=name, email=email, username=username, password=hashed_password, create_date=datetime.now())
         db.session.add(user)
         db.session.commit()
@@ -107,7 +106,7 @@ def add_user():
 @is_logged_in
 def dashboard():
 
-    #get rules
+    #get rock entries
     rocks = Rock.query.order_by(Rock.id.desc()).all()
 
     if len(rocks) > 0:
@@ -189,7 +188,7 @@ def home():
         r_brit = ((0.971 * brit) - (14.581))
         r_av = ((1.2779 * av) - (7.6605))
         dri = round(((r_ucs + r_pl + r_bwi + r_av + r_acv + r_brit) / 6), 2)
-        
+
 
         if dri > 82:
             dri_class = "Extremely High"
@@ -290,7 +289,7 @@ def home():
 
 
 
-    #execute commands
+        #insert into db
         rock = Rock(name=name, phone=phone, location=location, ucs=ucs, acv=acv, pl=pl, av=av, brit=brit, bwi=bwi, acv_class=acv_class, ucs_class=ucs_class, pl_class=pl_class, brit_class=brit_class, bwi_class=bwi_class, av_class=av_class, dri_class=dri_class, dri=dri, create_date=datetime.now().date())
         db.session.add(rock)
         db.session.commit()
@@ -351,7 +350,7 @@ def users():
         msg = 'No Users Found'
         return render_template('users.html', msg=msg)
 
-#session
+
 
 #LogOut
 @app.route('/logout')
