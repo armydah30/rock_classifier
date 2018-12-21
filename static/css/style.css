@@ -92,6 +92,13 @@ color: black !important;
         height:100%;
         width:100%;
     }
+    .bg-cover2 {
+            background-image: url('../img/dashboard.jpg');
+            background-size: 100%;
+            background-repeat: no-repeat;
+            height:100%;
+            width:100%;
+        }
 
 .message{
   text-align: center;
